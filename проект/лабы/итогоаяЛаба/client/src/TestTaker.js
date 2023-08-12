@@ -31,7 +31,7 @@ function TestTaker({ testId }) {
     let correctAnswers = 0;
 
     for (let i = 0; i < totalQuestions; i++) {
-      const correctAnswerIndex = test.questions[i].answers.findIndex(answer => answer.isCorrect);
+      const correctAnswerIndex = test.questions[i].answers.findIndex(answer => answer.is_correct);
       if (correctAnswerIndex === answers[i]) {
         correctAnswers++;
       }
