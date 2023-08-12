@@ -1,0 +1,161 @@
+<definitions name="Lab3Service"
+  targetNamespace="http://localhost:8000/wsdl?wsdl"
+  xmlns:tns="http://localhost:8000/wsdl?wsdl"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+  <types>
+    <xsd:schema targetNamespace="http://localhost:8000/wsdl?wsdl">
+      <xsd:element name="getClientsRequest" type="xsd:anyType"/>
+      <xsd:element name="getClientsResponse" type="xsd:anyType"/>
+      <xsd:element name="addClientRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addClientResponse" type="xsd:anyType"/>
+      <xsd:element name="getServicesRequest" type="xsd:anyType"/>
+      <xsd:element name="getServicesResponse" type="xsd:anyType"/>
+      <xsd:element name="addServiceRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="name" type="xsd:string"/>
+            <xsd:element name="price" type="xsd:decimal"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addServiceResponse" type="xsd:anyType"/>
+      <xsd:element name="getRequestsRequest" type="xsd:anyType"/>
+      <xsd:element name="getRequestsResponse" type="xsd:anyType"/>
+      <xsd:element name="addRequestRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="client_id" type="xsd:integer"/>
+            <xsd:element name="service_id" type="xsd:integer"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addRequestResponse" type="xsd:anyType"/>
+    </xsd:schema>
+  </types>
+
+  <message name="getClientsMessage">
+    <part name="getClientsRequest" element="tns:getClientsRequest"/>
+    <part name="getClientsResponse" element="tns:getClientsResponse"/>
+  </message>
+  <message name="addClientMessage">
+    <part name="addClientRequest" element="tns:addClientRequest"/>
+    <part name="addClientResponse" element="tns:addClientResponse"/>
+  </message>
+  <message name="getServicesMessage">
+    <part name="getServicesRequest" element="tns:getServicesRequest"/>
+    <part name="getServicesResponse" element="tns:getServicesResponse"/>
+  </message>
+  <message name="addServiceMessage">
+    <part name="addServiceRequest" element="tns:addServiceRequest"/>
+    <part name="addServiceResponse" element="tns:addServiceResponse"/>
+  </message>
+  <message name="getRequestsMessage">
+    <part name="getRequestsRequest" element="tns:getRequestsRequest"/>
+    <part name="getRequestsResponse" element="tns:getRequestsResponse"/>
+  </message>
+  <message name="addRequestMessage">
+    <part name="addRequestRequest" element="tns:addRequestRequest"/>
+    <part name="addRequestResponse" element="tns:addRequestResponse"/>
+  </message>
+
+  <portType name="Lab3PortType">
+    <operation name="getClients" parameterOrder="getClientsRequest">
+      <input message="tns:getClientsMessage"/>
+      <output message="tns:getClientsMessage"/>
+    </operation>
+    <operation name="addClient" parameterOrder="addClientRequest">
+      <input message="tns:addClientMessage"/>
+      <output message="tns:addClientMessage"/>
+    </operation>
+    <operation name="getServices" parameterOrder="getServicesRequest">
+      <input message="tns:getServicesMessage"/>
+      <output message="tns:getServicesMessage"/>
+    </operation>
+    <operation name="addService" parameterOrder="addServiceRequest">
+      <input message="tns:addServiceMessage"/>
+      <output message="tns:addServiceMessage"/>
+    </operation>
+    <operation name="getRequests" parameterOrder="getRequestsRequest">
+      <input message="tns:getRequestsMessage"/>
+      <output message="tns:getRequestsMessage"/>
+    </operation>
+    <operation name="addRequest" parameterOrder="addRequestRequest">
+      <input message="tns:addRequestMessage"/>
+      <output message="tns:addRequestMessage"/>
+    </operation>
+  </portType>
+
+  <binding name="Lab3Binding" type="tns:Lab3PortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getClients">
+      <soap:operation soapAction="http://localhost:8000/wsdl?wsdl#getClients"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="addClient">
+      <soap:operation soapAction="http://localhost:8000/wsdl?wsdl#addClient"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getServices">
+      <soap:operation soapAction="http://localhost:8000/wsdl?wsdl#getServices"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="addService">
+      <soap:operation soapAction="http://localhost:8000/wsdl?wsdl#addService"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="getRequests">
+      <soap:operation soapAction="http://localhost:8000/wsdl?wsdl#getRequests"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+    <operation name="addRequest">
+      <soap:operation soapAction="http://localhost:8000/wsdl?wsdl#addRequest"/>
+      <input>
+        <soap:body use="literal"/>
+      </input>
+      <output>
+        <soap:body use="literal"/>
+      </output>
+    </operation>
+  </binding>
+
+  <service name="Lab3Service">
+    <port name="Lab3Port" binding="tns:Lab3Binding">
+      <soap:address location="http://localhost:8000/wsdl?wsdl"/>
+
+    </port>
+  </service>
+</definitions>

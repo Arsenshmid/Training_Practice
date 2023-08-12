@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.example.com/wsdl" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="http://www.example.com/wsdl" name="MyService">
+  <types/>
+  <message name="GetClientsRequest"/>
+  <message name="GetClientsResponse">
+    <part name="clients" type="tns:ClientArray"/>
+  </message>
+  <message name="AddClientRequest">
+    <part name="name" type="xsd:string"/>
+  </message>
+  <message name="AddClientResponse">
+    <part name="id" type="xsd:int"/>
+  </message>
+  <!-- здесь будут другие операции для таблиц services и requests -->
+  <portType name="MyPort">
+    <operation name="getClients">
+      <input message="tns:GetClientsRequest"/>
+      <output message="tns:GetClientsResponse"/>
+    </operation>
+    <operation name="addClient">
+      <input message="tns:AddClientRequest"/>
+      <output message="tns:AddClientResponse"/>
+    </operation>
+    <!-- здесь будут другие операции для таблиц services и requests -->
+  </portType>
+  <binding name="MyBinding" type="tns:MyPort">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="getClients">
+      <soap:operation soapAction="http://www.example.com/wsdl/getClients"/>
+      <input>
+        <soap:body use="encoded" namespace="http://www.example.com/wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="http://www.example.com/wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+    <operation name="addClient">
+      <soap:operation soapAction="http://www.example.com/wsdl/addClient"/>
+      <input>
+        <soap:body use="encoded" namespace="http://www.example.com/wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="http://www.example.com/wsdl" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+    <!-- здесь будут другие операции для таблиц services и requests -->
+  </binding>
+  <service name="MyService">
+    <port name="MyPort" binding="tns:MyBinding">
+      <soap:address location="http://localhost:3000/wsdl"/>
+    </port>
+  </service>
+</definitions>

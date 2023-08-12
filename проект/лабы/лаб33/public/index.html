@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>SOAP Client</title>
+</head>
+<body>
+  <h1>List of Clients</h1>
+  <ul id="clientsList"></ul>
+  <script>
+    // Функция для отправки SOAP-запроса
+    function sendSoapRequest() {
+      const xmlRequest = `
+        <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ser="http://www.example.org/stock">
+          <soapenv:Header/>
+          <soapenv:Body>
+            <ser:getClients/>
+          </soapenv:Body>
+        </soapenv:Envelope>
+      `;
+
+      const xmlhttp = new XMLHttpRequest();
+      xmlhttp.open('POST', 'http://localhost:3000/soap', true);
+      xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState === 4) {
+          if (xmlhttp.status === 200) {
+            const response = xmlhttp.responseXML;
+            const clients = response.getElementsByTagName('Client');
+
+            const clientsList = document.getElementById('clientsList');
+            clientsList.innerHTML = '';
+
+            for (let i = 0; i < clients.length; i++) {
+              const id = clients[i].getElementsByTagName('id')[0].textContent;
+              const name = clients[i].getElementsByTagName('name')[0].textContent;
+
+              const listItem = document.createElement('li');
+              listItem.textContent = `ID: ${id}, Name: ${name}`;
+              clientsList.appendChild(listItem);
+            }
+          } else {
+            console.error('SOAP request failed');
+          }
+        }
+      };
+      xmlhttp.setRequestHeader('Content-Type', 'text/xml');
+      xmlhttp.send(xmlRequest);
+    }
+
+    // Вызываем функцию отправки SOAP-запроса при загрузке страницы
+    document.addEventListener('DOMContentLoaded', sendSoapRequest);
+  </script>
+</body>
+</html>

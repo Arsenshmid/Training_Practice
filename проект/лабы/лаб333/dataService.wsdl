@@ -1,0 +1,473 @@
+<definitions
+  xmlns:tns="http://localhost:8000/soap"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+  targetNamespace="http://localhost:8000/soap"
+  name="DataService"
+>
+  <wsdl:types>
+    <xsd:schema
+      targetNamespace="http://localhost:8000/soap"
+      elementFormDefault="qualified"
+    >
+      <!-- Чтение данных -->
+      <xsd:element name="getClients">
+        <xsd:complexType />
+      </xsd:element>
+      <xsd:element name="getClientsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="clients" type="tns:ArrayOfClient" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="getServices">
+        <xsd:complexType />
+      </xsd:element>
+      <xsd:element name="getServicesResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="services" type="tns:ArrayOfService" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="getRequests">
+        <xsd:complexType />
+      </xsd:element>
+      <xsd:element name="getRequestsResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="requests" type="tns:ArrayOfRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- Добавление данных -->
+      <xsd:element name="addClient">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="name" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addClientResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="client" type="tns:Client" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="addService">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="name" type="xsd:string" />
+            <xsd:element name="price" type="xsd:decimal" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addServiceResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="service" type="tns:Service" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="addRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="client_id" type="xsd:int" />
+            <xsd:element name="service_id" type="xsd:int" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="addRequestResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="request" type="tns:Request" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- Изменение данных -->
+      <xsd:element name="updateClient">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id" type="xsd:int" />
+            <xsd:element name="name" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateClientResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="client" type="tns:Client" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="updateService">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id" type="xsd:int" />
+            <xsd:element name="name" type="xsd:string" />
+            <xsd:element name="price" type="xsd:decimal" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="updateServiceResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="service" type="tns:Service" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- Удаление данных -->
+      <xsd:element name="deleteClient">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id" type="xsd:int" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteClientResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="success" type="xsd:boolean" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="deleteService">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id" type="xsd:int" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteServiceResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="success" type="xsd:boolean" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <xsd:element name="deleteRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="id" type="xsd:int" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="deleteRequestResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="success" type="xsd:boolean" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+
+      <!-- Типы данных -->
+      <xsd:complexType name="Client">
+        <xsd:sequence>
+          <xsd:element name="id" type="xsd:int" />
+          <xsd:element name="name" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfClient">
+        <xsd:sequence>
+          <xsd:element name="Client" type="tns:Client" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType name="Service">
+        <xsd:sequence>
+          <xsd:element name="id" type="xsd:int" />
+          <xsd:element name="name" type="xsd:string" />
+          <xsd:element name="price" type="xsd:decimal" />
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfService">
+        <xsd:sequence>
+          <xsd:element name="Service" type="tns:Service" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType name="Request">
+        <xsd:sequence>
+          <xsd:element name="id" type="xsd:int" />
+          <xsd:element name="client_id" type="xsd:int" />
+          <xsd:element name="service_id" type="xsd:int" />
+        </xsd:sequence>
+      </xsd:complexType>
+
+      <xsd:complexType name="ArrayOfRequest">
+        <xsd:sequence>
+          <xsd:element name="Request" type="tns:Request" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:schema>
+  </wsdl:types>
+
+  <wsdl:message name="getClientsRequest" />
+  <wsdl:message name="getClientsResponse">
+    <wsdl:part name="getClientsResult" type="tns:getClientsResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="getServicesRequest" />
+  <wsdl:message name="getServicesResponse">
+    <wsdl:part name="getServicesResult" type="tns:getServicesResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="getRequestsRequest" />
+  <wsdl:message name="getRequestsResponse">
+    <wsdl:part name="getRequestsResult" type="tns:getRequestsResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="addClientRequest">
+    <wsdl:part name="name" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="addClientResponse">
+    <wsdl:part name="addClientResult" type="tns:addClientResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="addServiceRequest">
+    <wsdl:part name="name" type="xsd:string" />
+    <wsdl:part name="price" type="xsd:decimal" />
+  </wsdl:message>
+  <wsdl:message name="addServiceResponse">
+    <wsdl:part name="addServiceResult" type="tns:addServiceResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="addRequestRequest">
+    <wsdl:part name="client_id" type="xsd:int" />
+    <wsdl:part name="service_id" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="addRequestResponse">
+    <wsdl:part name="addRequestResult" type="tns:addRequestResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="updateClientRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="name" type="xsd:string" />
+  </wsdl:message>
+  <wsdl:message name="updateClientResponse">
+    <wsdl:part name="updateClientResult" type="tns:updateClientResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="updateServiceRequest">
+    <wsdl:part name="id" type="xsd:int" />
+    <wsdl:part name="name" type="xsd:string" />
+    <wsdl:part name="price" type="xsd:decimal" />
+  </wsdl:message>
+  <wsdl:message name="updateServiceResponse">
+    <wsdl:part name="updateServiceResult" type="tns:updateServiceResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="deleteClientRequest">
+    <wsdl:part name="id" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="deleteClientResponse">
+    <wsdl:part name="deleteClientResult" type="tns:deleteClientResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="deleteServiceRequest">
+    <wsdl:part name="id" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="deleteServiceResponse">
+    <wsdl:part name="deleteServiceResult" type="tns:deleteServiceResponse" />
+  </wsdl:message>
+
+  <wsdl:message name="deleteRequestRequest">
+    <wsdl:part name="id" type="xsd:int" />
+  </wsdl:message>
+  <wsdl:message name="deleteRequestResponse">
+    <wsdl:part name="deleteRequestResult" type="tns:deleteRequestResponse" />
+  </wsdl:message>
+
+  <wsdl:portType name="DataServiceSoap">
+    <wsdl:operation name="getClients">
+      <wsdl:input message="tns:getClientsRequest" />
+      <wsdl:output message="tns:getClientsResponse" />
+    </wsdl:operation>
+
+    <wsdl:operation name="getServices">
+      <wsdl:input message="tns:getServicesRequest" />
+      <wsdl:output message="tns:getServicesResponse" />
+    </wsdl:operation>
+
+    <wsdl:operation name="getRequests">
+      <wsdl:input message="tns:getRequestsRequest" />
+      <wsdl:output message="tns:getRequestsResponse" />
+    </wsdl:operation>
+
+    <wsdl:operation name="addClient">
+      <wsdl:input message="tns:addClientRequest" />
+      <wsdl:output message="tns:addClientResponse" />
+    </wsdl:operation>
+
+    <wsdl:operation name="addService">
+      <wsdl:input message="tns:addServiceRequest" />
+      <wsdl:output message="tns:addServiceResponse" />
+    </wsdl:operation>
+
+    <wsdl:operation name="addRequest">
+      <wsdl:input message="tns:addRequestRequest" />
+      <wsdl:output message="tns:addRequestResponse" />
+    </wsdl:operation>
+
+    <wsdl:operation name="updateClient">
+      <wsdl:input message="tns:updateClientRequest" />
+      <wsdl:output message="tns:updateClientResponse" />
+    </wsdl:operation>
+
+    <wsdl:operation name="updateService">
+      <wsdl:input message="tns:updateServiceRequest" />
+      <wsdl:output message="tns:updateServiceResponse" />
+    </wsdl:operation>
+
+    <wsdl:operation name="deleteClient">
+      <wsdl:input message="tns:deleteClientRequest" />
+      <wsdl:output message="tns:deleteClientResponse" />
+    </wsdl:operation>
+
+    <wsdl:operation name="deleteService">
+      <wsdl:input message="tns:deleteServiceRequest" />
+      <wsdl:output message="tns:deleteServiceResponse" />
+    </wsdl:operation>
+
+    <wsdl:operation name="deleteRequest">
+      <wsdl:input message="tns:deleteRequestRequest" />
+      <wsdl:output message="tns:deleteRequestResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+
+  <wsdl:binding name="DataServiceSoap" type="tns:DataServiceSoap">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http" />
+
+    <wsdl:operation name="getClients">
+      <soap:operation soapAction="http://localhost:8000/soap#getClients" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="getServices">
+      <soap:operation soapAction="http://localhost:8000/soap#getServices" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="getRequests">
+      <soap:operation soapAction="http://localhost:8000/soap#getRequests" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="addClient">
+      <soap:operation soapAction="http://localhost:8000/soap#addClient" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="addService">
+      <soap:operation soapAction="http://localhost:8000/soap#addService" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="addRequest">
+      <soap:operation soapAction="http://localhost:8000/soap#addRequest" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="updateClient">
+      <soap:operation soapAction="http://localhost:8000/soap#updateClient" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="updateService">
+      <soap:operation soapAction="http://localhost:8000/soap#updateService" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="deleteClient">
+      <soap:operation soapAction="http://localhost:8000/soap#deleteClient" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="deleteService">
+      <soap:operation soapAction="http://localhost:8000/soap#deleteService" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+
+    <wsdl:operation name="deleteRequest">
+      <soap:operation soapAction="http://localhost:8000/soap#deleteRequest" />
+      <wsdl:input>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="encoded" namespace="http://localhost:8000/soap" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+
+  <wsdl:service name="DataService">
+    <wsdl:port name="DataServiceSoap" binding="tns:DataServiceSoap">
+      <soap:address location="http://localhost:8000/soap" />
+    </wsdl:port>
+  </wsdl:service>
+</definitions>

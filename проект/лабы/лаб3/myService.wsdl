@@ -1,0 +1,51 @@
+<!-- Filename: myService.wsdl -->
+<definitions name="MyService"
+  targetNamespace="http://www.example.org/myService"
+  xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:tns="http://www.example.org/myService"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <message name="GetClientsRequest">
+    <part name="parameters" element="tns:GetClients" />
+  </message>
+
+  <message name="GetClientsResponse">
+    <part name="parameters" element="tns:GetClientsResponse" />
+  </message>
+
+  <!-- Add similar messages for other operations -->
+
+  <portType name="MyServicePortType">
+    <operation name="GetClients">
+      <input message="tns:GetClientsRequest" />
+      <output message="tns:GetClientsResponse" />
+    </operation>
+
+    <!-- Add similar operations for other operations -->
+  </portType>
+
+  <binding name="MyServicePortBinding" type="tns:MyServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http" />
+
+    <operation name="GetClients">
+      <soap:operation soapAction="http://www.example.org/myService/GetClients" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+
+    <!-- Add similar operations for other operations -->
+  </binding>
+
+  <service name="MyService">
+    <documentation>My SOAP Service</documentation>
+    <port name="MyServicePort" binding="tns:MyServicePortBinding">
+      <soap:address location="http://localhost:3000/wsdl" />
+    </port>
+  </service>
+
+</definitions>
